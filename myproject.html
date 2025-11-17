@@ -1,0 +1,2525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitnessBro - Your Personal Gym Coach</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --info: #17a2b8;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Welcome Page */
+        #welcome-page {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://cdn.muscleandstrength.com/sites/default/files/images/coleman-squat.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.8), rgba(231, 76, 60, 0.6));
+            z-index: 1;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .logo-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(231, 76, 60, 0.6);
+            animation: none;
+        }
+
+        .logo-icon i {
+            font-size: 4rem;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, var(--secondary), #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            font-weight: 300;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
+        }
+
+        /* Selection Pages */
+        .selection-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .page-description {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin-bottom: 3rem;
+            line-height: 1.8;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 3rem;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2.5rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .option-card:hover:before {
+            left: 100%;
+        }
+
+        .option-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .option-card.selected {
+            background: rgba(231, 76, 60, 0.3);
+            border-color: var(--secondary);
+        }
+
+        .option-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            transition: all 0.3s;
+        }
+
+        .option-card:hover .option-icon {
+            transform: scale(1.1);
+        }
+
+        .option-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .option-description {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Workout Page */
+        #workout-page {
+            min-height: 100vh;
+            background: var(--light);
+            color: var(--dark);
+            padding: 2rem 0;
+        }
+
+        .workout-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .workout-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .workout-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .workout-plan {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .plan-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 0.5rem;
+        }
+
+        .day-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            transition: all 0.3s;
+        }
+
+        .day-section:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .day-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .day-title i {
+            color: var(--secondary);
+        }
+
+        .exercise-list {
+            list-style: none;
+        }
+
+        .exercise-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .exercise-item:hover {
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 5px;
+        }
+
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+
+        .exercise-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .exercise-details {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .workout-tips {
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tips-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tips-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tips-list li:before {
+            content: "•";
+            color: var(--secondary);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-steps:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 4px;
+            background: var(--secondary);
+            transform: translateY(-50%);
+            z-index: 2;
+            transition: width 0.5s;
+        }
+
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: relative;
+            z-index: 3;
+            transition: all 0.3s;
+        }
+
+        .step.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .step-label {
+            position: absolute;
+            top: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            color: var(--secondary);
+        }
+
+        .footer-column h3:after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 3px;
+            background: var(--secondary);
+            margin-top: 0.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-info i {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            width: 25px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none;
+        }
+
+        /* New features */
+        .progression-scheme {
+            background: #e8f4fc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .progression-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progression-title i {
+            color: var(--accent);
+        }
+
+        .progression-list {
+            list-style: none;
+        }
+
+        .progression-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .progression-list li:before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .workout-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature i {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Advanced Features */
+        .workout-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 150px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .download-section {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            background: #27ae60;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .timer-section {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .timer-btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .timer-start {
+            background: var(--success);
+            color: white;
+        }
+
+        .timer-pause {
+            background: var(--warning);
+            color: white;
+        }
+
+        .timer-reset {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .nutrition-tips {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nutrition-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 0.5rem;
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .nutrition-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--info);
+        }
+
+        .nutrition-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .progress-steps {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+            }
+            
+            .progress-steps:before {
+                display: none;
+            }
+            
+            .progress-bar {
+                display: none;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .workout-features {
+                flex-direction: column;
+            }
+            
+            .workout-stats {
+                flex-direction: column;
+            }
+            
+            .timer-display {
+                font-size: 2rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--secondary);
+        }
+
+        /* Print Styles */
+        @media print {
+            .navigation-buttons,
+            .timer-section,
+            .download-section,
+            footer {
+                display: none !important;
+            }
+            
+            .workout-plan {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Page -->
+    <section id="welcome-page">
+        <div class="welcome-overlay"></div>
+        <div class="welcome-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <div class="logo-text">FitnessBro</div>
+            </div>
+            <p class="tagline">Your personal AI-powered gym coach for bodybuilding, powerlifting, and fitness workouts</p>
+            <button class="btn btn-primary" id="get-started">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Workout Type Selection -->
+    <section id="workout-type-page" class="selection-page hidden">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="step active">1</div>
+                <div class="step">2</div>
+                <div class="step">3</div>
+                <div class="progress-bar" style="width: 0%;"></div>
+            </div>
+            <div class="step-labels">
+                <div class="step-label">Workout Type</div>
+                <div class="step-label">Experience Level</div>
+                <div class="step-label">Your Plan</div>
+            </div>
+        </div>
+        
+        <h2 class="page-title">Choose Your Workout Type</h2>
+        <p class="page-description">Select the type of training that matches your fitness goals. Each program is designed to help you achieve specific results.</p>
+        
+        <div class="options-grid">
+            <div class="option-card" data-type="bodybuilding">
+                <div class="option-icon">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <h3 class="option-title">Bodybuilding</h3>
+                <p class="option-description">Focus on muscle hypertrophy, symmetry, and aesthetics. Perfect for those looking to build an impressive physique.</p>
+            </div>
+            <div class="option-card" data-type="powerlifting">
+                <div class="option-icon">
+                    <i class="fas fa-weight-hanging"></i>
+                </div>
+                <h3 class="option-title">Powerlifting</h3>
+                <p class="option-description">Train for maximum strength in squat, bench press, and deadlift. Ideal for those who want to get stronger.</p>
+            </div>
+            <div class="option-card" data-type="fitness">
+                <div class="option-icon">
+                    <i class="fas fa-running"></i>
+                </div>
+                <h3 class="option-title">Fitness</h3>
+                <p class="option-description">A balanced approach focusing on overall health, endurance, and functional strength. Great for general wellness.</p>
+            </div>
+        </div>
+        
+        <div class="navigation-buttons">
+            <button class="btn btn-outline" id="back-to-welcome">Back</button>
+        </div>
+    </section>
+
+    <!-- Experience Level Selection -->
+    <section id="experience-page" class="selection-page hidden">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="step active">1</div>
+                <div class="step active">2</div>
+                <div class="step">3</div>
+                <div class="progress-bar" style="width: 50%;"></div>
+            </div>
+            <div class="step-labels">
+                <div class="step-label">Workout Type</div>
+                <div class="step-label">Experience Level</div>
+                <div class="step-label">Your Plan</div>
+            </div>
+        </div>
+        
+        <h2 class="page-title">What's Your Experience Level?</h2>
+        <p class="page-description">Select your current training experience so we can create a workout plan that matches your abilities and helps you progress safely.</p>
+        
+        <div class="options-grid">
+            <div class="option-card" data-level="beginner">
+                <div class="option-icon">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <h3 class="option-title">Beginner</h3>
+                <p class="option-description">New to structured training or returning after a long break. Focus on learning proper form and building a foundation.</p>
+            </div>
+            <div class="option-card" data-level="intermediate">
+                <div class="option-icon">
+                    <i class="fas fa-weight-hanging"></i>
+                </div>
+                <h3 class="option-title">Intermediate</h3>
+                <p class="option-description">Consistently trained for 6+ months. Ready to progress with more volume and intensity in your workouts.</p>
+            </div>
+            <div class="option-card" data-level="advanced">
+                <div class="option-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3 class="option-title">Advanced</h3>
+                <p class="option-description">Years of consistent training experience. Looking for advanced techniques to break through plateaus.</p>
+            </div>
+        </div>
+        
+        <div class="navigation-buttons">
+            <button class="btn btn-outline" id="back-to-type">Back</button>
+        </div>
+    </section>
+
+    <!-- Workout Plan Page -->
+    <section id="workout-page" class="hidden">
+        <div class="progress-container">
+            <div class="progress-steps">
+                <div class="step active">1</div>
+                <div class="step active">2</div>
+                <div class="step active">3</div>
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+            <div class="step-labels">
+                <div class="step-label">Workout Type</div>
+                <div class="step-label">Experience Level</div>
+                <div class="step-label">Your Plan</div>
+            </div>
+        </div>
+        
+        <div class="workout-header">
+            <h2 class="workout-title" id="plan-title">Your Personalized Workout Plan</h2>
+            <p class="workout-subtitle" id="plan-subtitle">Here is your customized 6-day push/pull workout plan based on your selections.</p>
+        </div>
+        
+        <div class="container">
+            <div class="workout-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-workouts">6</div>
+                    <div class="stat-label">Workouts Per Week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="total-exercises">36</div>
+                    <div class="stat-label">Total Exercises</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="training-days">6</div>
+                    <div class="stat-label">Training Days</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="rest-days">1</div>
+                    <div class="stat-label">Rest Day</div>
+                </div>
+            </div>
+            
+            <div class="workout-features">
+                <div class="feature">
+                    <i class="fas fa-dumbbell"></i>
+                    <div class="feature-title">Progressive Overload</div>
+                    <p>Gradually increase intensity for continuous gains</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-sync-alt"></i>
+                    <div class="feature-title">Periodization</div>
+                    <p>Structured training cycles to prevent plateaus</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-balance-scale"></i>
+                    <div class="feature-title">Balanced Approach</div>
+                    <p>Target all muscle groups for symmetrical development</p>
+                </div>
+            </div>
+            
+            <div class="timer-section">
+                <h3>Workout Timer</h3>
+                <div class="timer-display" id="timer">00:00</div>
+                <div class="timer-controls">
+                    <button class="timer-btn timer-start" id="start-timer">Start</button>
+                    <button class="timer-btn timer-pause" id="pause-timer">Pause</button>
+                    <button class="timer-btn timer-reset" id="reset-timer">Reset</button>
+                </div>
+            </div>
+            
+            <div class="workout-plan">
+                <h3 class="plan-title" id="workout-plan-title">6-Day Push/Pull Workout Split</h3>
+                
+                <div class="progression-scheme">
+                    <h4 class="progression-title">
+                        <i class="fas fa-chart-line"></i>
+                        Progression Strategy
+                    </h4>
+                    <ul class="progression-list" id="progression-list">
+                        <!-- Progression tips will be dynamically added here -->
+                    </ul>
+                </div>
+                
+                <div id="workout-days-container">
+                    <!-- Workout days will be dynamically added here -->
+                </div>
+            </div>
+            
+            <div class="nutrition-tips">
+                <h3 class="nutrition-title">Nutrition Recommendations</h3>
+                <div class="nutrition-grid" id="nutrition-tips-container">
+                    <!-- Nutrition tips will be dynamically added here -->
+                </div>
+            </div>
+            
+            <div class="workout-tips">
+                <h3 class="tips-title">Important Training Tips</h3>
+                <ul class="tips-list" id="tips-list">
+                    <!-- Tips will be dynamically added here -->
+                </ul>
+            </div>
+            
+            <div class="download-section">
+                <a href="#" class="download-btn" id="download-plan">
+                    <i class="fas fa-download"></i>
+                    Download Your Workout Plan
+                </a>
+            </div>
+            
+            <div class="navigation-buttons" style="justify-content: center; margin-top: 2rem;">
+                <button class="btn btn-primary" id="start-new-plan">Start New Plan</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FitnessBro</h3>
+                    <p>Your personal gym coach for bodybuilding, powerlifting, and fitness workouts. Get personalized workout plans based on your goals and experience level.</p>
+                    <div class="social-links">
+                        <a href="https://instagram.com/_innocent_criminal" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Workout Plans</a></li>
+                        <li><a href="#">Nutrition Guide</a></li>
+                        <li><a href="#">Progress Tracking</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fab fa-instagram"></i>
+                            <span>@_innocent_criminal</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+91 63637 86189</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>samaaktabrez61@gmail.com</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>India</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 FitnessBro. All rights reserved. | Designed with <i class="fas fa-heart" style="color: var(--secondary);"></i> for fitness enthusiasts</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // DOM Elements
+        const welcomePage = document.getElementById('welcome-page');
+        const workoutTypePage = document.getElementById('workout-type-page');
+        const experiencePage = document.getElementById('experience-page');
+        const workoutPage = document.getElementById('workout-page');
+        
+        const getStartedBtn = document.getElementById('get-started');
+        const backToWelcomeBtn = document.getElementById('back-to-welcome');
+        const backToTypeBtn = document.getElementById('back-to-type');
+        const startNewPlanBtn = document.getElementById('start-new-plan');
+        const downloadPlanBtn = document.getElementById('download-plan');
+        
+        const workoutTypeCards = document.querySelectorAll('#workout-type-page .option-card');
+        const experienceCards = document.querySelectorAll('#experience-page .option-card');
+        
+        const planTitle = document.getElementById('plan-title');
+        const planSubtitle = document.getElementById('plan-subtitle');
+        const workoutPlanTitle = document.getElementById('workout-plan-title');
+        const workoutDaysContainer = document.getElementById('workout-days-container');
+        const tipsList = document.getElementById('tips-list');
+        const progressionList = document.getElementById('progression-list');
+        const nutritionTipsContainer = document.getElementById('nutrition-tips-container');
+        
+        // Timer elements
+        const timerDisplay = document.getElementById('timer');
+        const startTimerBtn = document.getElementById('start-timer');
+        const pauseTimerBtn = document.getElementById('pause-timer');
+        const resetTimerBtn = document.getElementById('reset-timer');
+        
+        // Stats elements
+        const totalWorkouts = document.getElementById('total-workouts');
+        const totalExercises = document.getElementById('total-exercises');
+        const trainingDays = document.getElementById('training-days');
+        const restDays = document.getElementById('rest-days');
+        
+        // Toast element
+        const toast = document.getElementById('toast');
+        
+        // User selections
+        let selectedWorkoutType = '';
+        let selectedExperienceLevel = '';
+        
+        // Timer variables
+        let timerInterval;
+        let timerSeconds = 0;
+        let timerRunning = false;
+        
+        // Enhanced workout data with 6-day push/pull split
+        const workoutData = {
+            bodybuilding: {
+                beginner: {
+                    title: "Beginner Bodybuilding Program",
+                    subtitle: "6-Day Push/Pull Split - Focus on learning proper form and building foundation",
+                    progression: [
+                        "Focus on mastering exercise form with lighter weights",
+                        "Increase weight by 2.5-5 lbs each week on main lifts",
+                        "Aim to add 1-2 reps to each set every workout",
+                        "Once you hit the top of your rep range, increase weight",
+                        "Track your workouts to ensure consistent progress"
+                    ],
+                    nutrition: [
+                        {
+                            title: "Protein Intake",
+                            content: "Aim for 0.8-1g of protein per pound of bodyweight daily to support muscle growth."
+                        },
+                        {
+                            title: "Carbohydrates",
+                            content: "Consume complex carbs like oats, sweet potatoes, and brown rice for sustained energy."
+                        },
+                        {
+                            title: "Healthy Fats",
+                            content: "Include sources like avocados, nuts, and olive oil for hormone production and joint health."
+                        },
+                        {
+                            title: "Hydration",
+                            content: "Drink at least 3-4 liters of water daily, especially around workouts."
+                        }
+                    ],
+                    days: [
+                        {
+                            day: "Day 1: Push (Chest, Shoulders, Triceps)",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Barbell Bench Press", details: "4 sets of 8-12 reps" },
+                                { name: "Incline Dumbbell Press", details: "3 sets of 10-15 reps" },
+                                { name: "Seated Dumbbell Shoulder Press", details: "3 sets of 10-12 reps" },
+                                { name: "Cable Crossovers", details: "3 sets of 12-15 reps" },
+                                { name: "Tricep Pushdowns", details: "3 sets of 12-15 reps" },
+                                { name: "Lateral Raises", details: "3 sets of 15-20 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 2: Pull (Back, Biceps)",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Lat Pulldowns", details: "4 sets of 8-12 reps" },
+                                { name: "Barbell Rows", details: "3 sets of 8-12 reps" },
+                                { name: "Seated Cable Rows", details: "3 sets of 10-15 reps" },
+                                { name: "Face Pulls", details: "3 sets of 15-20 reps" },
+                                { name: "Barbell Curls", details: "3 sets of 10-15 reps" },
+                                { name: "Hammer Curls", details: "3 sets of 12-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 3: Legs",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Barbell Squats", details: "4 sets of 8-12 reps" },
+                                { name: "Romanian Deadlifts", details: "3 sets of 10-12 reps" },
+                                { name: "Leg Press", details: "3 sets of 10-15 reps" },
+                                { name: "Leg Extensions", details: "3 sets of 12-15 reps" },
+                                { name: "Lying Leg Curls", details: "3 sets of 12-15 reps" },
+                                { name: "Standing Calf Raises", details: "4 sets of 15-20 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 4: Push (Chest, Shoulders, Triceps)",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Dumbbell Bench Press", details: "4 sets of 8-12 reps" },
+                                { name: "Incline Barbell Press", details: "3 sets of 8-12 reps" },
+                                { name: "Dumbbell Lateral Raises", details: "4 sets of 12-15 reps" },
+                                { name: "Cable Flyes", details: "3 sets of 12-15 reps" },
+                                { name: "Overhead Tricep Extensions", details: "3 sets of 10-12 reps" },
+                                { name: "Rope Pushdowns", details: "3 sets of 12-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 5: Pull (Back, Biceps)",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Pull-ups (Assisted)", details: "4 sets to failure" },
+                                { name: "T-bar Rows", details: "3 sets of 8-12 reps" },
+                                { name: "Straight Arm Pulldowns", details: "3 sets of 12-15 reps" },
+                                { name: "Reverse Flyes", details: "3 sets of 12-15 reps" },
+                                { name: "Preacher Curls", details: "3 sets of 10-12 reps" },
+                                { name: "Concentration Curls", details: "3 sets of 12-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 6: Legs & Core",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Goblet Squats", details: "4 sets of 10-15 reps" },
+                                { name: "Bulgarian Split Squats", details: "3 sets of 10 reps per leg" },
+                                { name: "Leg Press", details: "3 sets of 12-15 reps" },
+                                { name: "Seated Leg Curls", details: "3 sets of 12-15 reps" },
+                                { name: "Hanging Knee Raises", details: "3 sets of 12-15 reps" },
+                                { name: "Russian Twists", details: "3 sets of 15-20 reps" }
+                            ]
+                        }
+                    ],
+                    tips: [
+                        "Focus on proper form over heavy weights - quality over quantity",
+                        "Train each muscle group 2 times per week for optimal growth",
+                        "Rest 60-90 seconds between sets for hypertrophy",
+                        "Increase weight gradually each week (progressive overload)",
+                        "Ensure adequate protein intake (0.8-1g per lb of bodyweight)",
+                        "Stay consistent with your 6-day schedule for best results",
+                        "Listen to your body and take rest days when needed",
+                        "Prioritize compound movements for foundation building"
+                    ]
+                },
+                intermediate: {
+                    title: "Intermediate Bodybuilding Program",
+                    subtitle: "6-Day Push/Pull Split - Increase volume and intensity for muscle growth",
+                    progression: [
+                        "Use double progression: increase reps first, then weight",
+                        "Implement periodization with 4-6 week mesocycles",
+                        "Add drop sets on the last set of each exercise",
+                        "Increase training volume by 10-20% each mesocycle",
+                        "Track RPE (Rate of Perceived Exertion) to manage intensity"
+                    ],
+                    nutrition: [
+                        {
+                            title: "Protein Timing",
+                            content: "Consume 20-30g of protein within 30 minutes post-workout for optimal recovery."
+                        },
+                        {
+                            title: "Calorie Surplus",
+                            content: "Maintain a slight calorie surplus of 200-300 calories for lean muscle gains."
+                        },
+                        {
+                            title: "Meal Frequency",
+                            content: "Eat 4-6 balanced meals throughout the day to maintain steady energy and protein synthesis."
+                        },
+                        {
+                            title: "Supplementation",
+                            content: "Consider whey protein, creatine, and BCAAs to support training and recovery."
+                        }
+                    ],
+                    days: [
+                        {
+                            day: "Day 1: Push (Heavy Chest & Triceps)",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Barbell Bench Press", details: "4 sets of 6-10 reps" },
+                                { name: "Incline Barbell Press", details: "4 sets of 8-12 reps" },
+                                { name: "Weighted Dips", details: "3 sets of 8-12 reps" },
+                                { name: "Close Grip Bench Press", details: "3 sets of 8-12 reps" },
+                                { name: "Cable Crossovers", details: "3 sets of 12-15 reps" },
+                                { name: "Skull Crushers", details: "3 sets of 10-12 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 2: Pull (Heavy Back & Biceps)",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Deadlifts", details: "4 sets of 5-8 reps" },
+                                { name: "Weighted Pull-ups", details: "4 sets of 6-10 reps" },
+                                { name: "Barbell Rows", details: "4 sets of 6-10 reps" },
+                                { name: "T-bar Rows", details: "3 sets of 8-12 reps" },
+                                { name: "Barbell Curls", details: "3 sets of 8-12 reps" },
+                                { name: "Incline Dumbbell Curls", details: "3 sets of 10-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 3: Legs (Heavy)",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Barbell Squats", details: "4 sets of 6-10 reps" },
+                                { name: "Leg Press", details: "4 sets of 8-12 reps" },
+                                { name: "Romanian Deadlifts", details: "3 sets of 8-12 reps" },
+                                { name: "Walking Lunges", details: "3 sets of 10 reps per leg" },
+                                { name: "Leg Extensions", details: "3 sets of 12-15 reps" },
+                                { name: "Seated Calf Raises", details: "4 sets of 15-20 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 4: Push (Shoulders & Triceps)",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Overhead Press", details: "4 sets of 6-10 reps" },
+                                { name: "Dumbbell Lateral Raises", details: "4 sets of 12-15 reps" },
+                                { name: "Face Pulls", details: "3 sets of 15-20 reps" },
+                                { name: "Arnold Press", details: "3 sets of 8-12 reps" },
+                                { name: "Tricep Pushdowns", details: "3 sets of 12-15 reps" },
+                                { name: "Overhead Rope Extensions", details: "3 sets of 10-12 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 5: Pull (Back Width & Biceps)",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Wide Grip Pulldowns", details: "4 sets of 8-12 reps" },
+                                { name: "Seated Cable Rows", details: "4 sets of 8-12 reps" },
+                                { name: "Straight Arm Pulldowns", details: "3 sets of 12-15 reps" },
+                                { name: "Reverse Grip Pulldowns", details: "3 sets of 10-12 reps" },
+                                { name: "Preacher Curls", details: "3 sets of 8-12 reps" },
+                                { name: "Cable Curls", details: "3 sets of 12-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 6: Legs (Hypertrophy) & Core",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Front Squats", details: "4 sets of 8-12 reps" },
+                                { name: "Hack Squats", details: "3 sets of 10-15 reps" },
+                                { name: "Leg Press", details: "3 sets of 12-15 reps" },
+                                { name: "Lying Leg Curls", details: "3 sets of 12-15 reps" },
+                                { name: "Hanging Leg Raises", details: "3 sets of 10-15 reps" },
+                                { name: "Cable Crunches", details: "3 sets of 15-20 reps" }
+                            ]
+                        }
+                    ],
+                    tips: [
+                        "Implement progressive overload each week - either more weight, reps, or sets",
+                        "Use different rep ranges for variety and complete muscle development",
+                        "Consider incorporating drop sets on final sets for intensity",
+                        "Train each muscle group 2 times per week for optimal frequency",
+                        "Track your workouts meticulously to monitor progress over time",
+                        "Focus on mind-muscle connection to maximize muscle activation",
+                        "Ensure proper nutrition with calorie surplus for muscle growth",
+                        "Incorporate deload weeks every 6-8 weeks to prevent overtraining"
+                    ]
+                },
+                advanced: {
+                    title: "Advanced Bodybuilding Program",
+                    subtitle: "6-Day Push/Pull Split - Advanced techniques for breaking plateaus",
+                    progression: [
+                        "Implement undulating periodization with daily changes in intensity",
+                        "Use intensity techniques: drop sets, rest-pause, forced reps",
+                        "Cycle between strength, hypertrophy, and density phases",
+                        "Track volume, intensity, and frequency to optimize progress",
+                        "Implement specialization phases for lagging muscle groups"
+                    ],
+                    nutrition: [
+                        {
+                            title: "Nutrient Timing",
+                            content: "Time carbohydrate intake around workouts and prioritize protein throughout the day."
+                        },
+                        {
+                            title: "Calorie Cycling",
+                            content: "Implement calorie cycling with higher intake on training days and lower on rest days."
+                        },
+                        {
+                            title: "Advanced Supplementation",
+                            content: "Consider beta-alanine, citrulline malate, and HMB for enhanced performance."
+                        },
+                        {
+                            title: "Hydration Strategy",
+                            content: "Consume electrolyte-rich fluids during intense training sessions exceeding 60 minutes."
+                        }
+                    ],
+                    days: [
+                        {
+                            day: "Day 1: Chest Focus (Push)",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Barbell Bench Press", details: "5 sets of 5-8 reps" },
+                                { name: "Incline Dumbbell Press", details: "4 sets of 6-10 reps" },
+                                { name: "Decline Bench Press", details: "3 sets of 8-12 reps" },
+                                { name: "Cable Flyes", details: "3 sets of 12-15 reps (drop set)" },
+                                { name: "Weighted Dips", details: "3 sets of 8-12 reps" },
+                                { name: "Pec Deck", details: "3 sets of 12-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 2: Back Thickness (Pull)",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Deadlifts", details: "4 sets of 3-6 reps" },
+                                { name: "Barbell Rows", details: "4 sets of 6-10 reps" },
+                                { name: "T-bar Rows", details: "3 sets of 8-12 reps" },
+                                { name: "Dumbbell Rows", details: "3 sets of 8-12 reps" },
+                                { name: "Hyperextensions", details: "3 sets of 12-15 reps" },
+                                { name: "Rack Pulls", details: "3 sets of 5-8 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 3: Shoulders & Arms",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Overhead Press", details: "4 sets of 6-10 reps" },
+                                { name: "Arnold Press", details: "3 sets of 8-12 reps" },
+                                { name: "Lateral Raises", details: "4 sets of 12-15 reps (giant sets)" },
+                                { name: "Rear Delt Flyes", details: "4 sets of 12-15 reps" },
+                                { name: "Barbell Curls", details: "4 sets of 8-12 reps" },
+                                { name: "Close Grip Bench", details: "4 sets of 8-12 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 4: Legs (Quad Focus)",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Barbell Squats", details: "5 sets of 5-8 reps" },
+                                { name: "Leg Press", details: "4 sets of 8-12 reps" },
+                                { name: "Hack Squats", details: "3 sets of 10-15 reps" },
+                                { name: "Leg Extensions", details: "3 sets of 12-15 reps (rest-pause)" },
+                                { name: "Walking Lunges", details: "3 sets of 10 reps per leg" },
+                                { name: "Sissy Squats", details: "3 sets of 12-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 5: Back Width & Arms (Pull)",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Weighted Pull-ups", details: "4 sets of 6-10 reps" },
+                                { name: "Wide Grip Pulldowns", details: "4 sets of 8-12 reps" },
+                                { name: "Seated Cable Rows", details: "3 sets of 8-12 reps" },
+                                { name: "Straight Arm Pulldowns", details: "3 sets of 12-15 reps" },
+                                { name: "Preacher Curls", details: "3 sets of 8-12 reps" },
+                                { name: "Skull Crushers", details: "3 sets of 8-12 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 6: Legs (Hamstring Focus) & Calves",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Romanian Deadlifts", details: "4 sets of 8-12 reps" },
+                                { name: "Lying Leg Curls", details: "4 sets of 12-15 reps" },
+                                { name: "Good Mornings", details: "3 sets of 10-12 reps" },
+                                { name: "Seated Leg Curls", details: "3 sets of 12-15 reps" },
+                                { name: "Standing Calf Raises", details: "5 sets of 15-20 reps" },
+                                { name: "Seated Calf Raises", details: "4 sets of 15-20 reps" }
+                            ]
+                        }
+                    ],
+                    tips: [
+                        "Incorporate advanced techniques like supersets, drop sets, and rest-pause",
+                        "Periodize your training with distinct hypertrophy, strength, and density blocks",
+                        "Focus on weak points with specialized exercises and additional volume",
+                        "Consider implementing double-split training on lagging body parts",
+                        "Ensure adequate recovery with proper sleep, nutrition, and active recovery",
+                        "Track all your lifts, measurements, and body composition changes",
+                        "Consider working with a coach for personalized guidance and form checks",
+                        "Implement strategic deloads and active recovery phases to prevent overtraining"
+                    ]
+                }
+            },
+            powerlifting: {
+                beginner: {
+                    title: "Beginner Powerlifting Program",
+                    subtitle: "6-Day Push/Pull Split - Build foundation in the big three lifts",
+                    progression: [
+                        "Focus on technique mastery with submaximal weights",
+                        "Add 5-10 lbs to main lifts each week",
+                        "Use RPE (Rate of Perceived Exertion) to gauge intensity",
+                        "Practice competition commands and setup",
+                        "Gradually increase volume while maintaining form"
+                    ],
+                    nutrition: [
+                        {
+                            title: "Protein Requirements",
+                            content: "Aim for 1-1.2g of protein per pound of bodyweight to support strength gains."
+                        },
+                        {
+                            title: "Carbohydrate Timing",
+                            content: "Consume most of your carbs around workouts for optimal performance."
+                        },
+                        {
+                            title: "Healthy Fats",
+                            content: "Include omega-3 rich foods like salmon and walnuts to reduce inflammation."
+                        },
+                        {
+                            title: "Hydration",
+                            content: "Stay well-hydrated as even mild dehydration can impair strength performance."
+                        }
+                    ],
+                    days: [
+                        {
+                            day: "Day 1: Heavy Bench & Triceps",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Bench Press", details: "5 sets of 5 reps @ RPE 7-8" },
+                                { name: "Close Grip Bench", details: "3 sets of 8 reps" },
+                                { name: "Overhead Press", details: "3 sets of 8 reps" },
+                                { name: "Tricep Pushdowns", details: "3 sets of 12-15 reps" },
+                                { name: "Face Pulls", details: "3 sets of 15-20 reps" },
+                                { name: "Dumbbell Bench Press", details: "3 sets of 10-12 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 2: Heavy Squat",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Squat", details: "5 sets of 5 reps @ RPE 7-8" },
+                                { name: "Pause Squats", details: "3 sets of 5 reps" },
+                                { name: "Leg Press", details: "3 sets of 8-12 reps" },
+                                { name: "Leg Extensions", details: "3 sets of 12-15 reps" },
+                                { name: "Calf Raises", details: "4 sets of 15-20 reps" },
+                                { name: "Plank", details: "3 sets of 60 seconds" }
+                            ]
+                        },
+                        {
+                            day: "Day 3: Heavy Deadlift & Back",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Deadlift", details: "3 sets of 5 reps @ RPE 7-8" },
+                                { name: "Barbell Rows", details: "3 sets of 8 reps" },
+                                { name: "Lat Pulldowns", details: "3 sets of 8-12 reps" },
+                                { name: "Hyperextensions", details: "3 sets of 12-15 reps" },
+                                { name: "Farmers Walks", details: "3 sets of 50 feet" },
+                                { name: "Shrugs", details: "3 sets of 12-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 4: Volume Bench & Shoulders",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Bench Press", details: "3 sets of 8 reps @ RPE 6-7" },
+                                { name: "Incline Dumbbell Press", details: "3 sets of 8-12 reps" },
+                                { name: "Dumbbell Shoulder Press", details: "3 sets of 8-12 reps" },
+                                { name: "Lateral Raises", details: "3 sets of 12-15 reps" },
+                                { name: "Tricep Extensions", details: "3 sets of 12-15 reps" },
+                                { name: "Push-ups", details: "3 sets to failure" }
+                            ]
+                        },
+                        {
+                            day: "Day 5: Volume Squat & Legs",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Squat", details: "3 sets of 8 reps @ RPE 6-7" },
+                                { name: "Front Squats", details: "3 sets of 8 reps" },
+                                { name: "Romanian Deadlifts", details: "3 sets of 8-12 reps" },
+                                { name: "Leg Curls", details: "3 sets of 12-15 reps" },
+                                { name: "Ab Rollouts", details: "3 sets of 10-15 reps" },
+                                { name: "Box Jumps", details: "3 sets of 5 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 6: Volume Deadlift & Back",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Deadlift", details: "3 sets of 8 reps @ RPE 6-7" },
+                                { name: "Pull-ups", details: "3 sets to failure" },
+                                { name: "T-bar Rows", details: "3 sets of 8-12 reps" },
+                                { name: "Shrugs", details: "3 sets of 12-15 reps" },
+                                { name: "Cable Rows", details: "3 sets of 12-15 reps" },
+                                { name: "Good Mornings", details: "3 sets of 10 reps" }
+                            ]
+                        }
+                    ],
+                    tips: [
+                        "Focus on mastering technique above all else - film your lifts for form checks",
+                        "Increase weight gradually each session while maintaining perfect form",
+                        "Record your lifts to track progress and identify sticking points",
+                        "Practice bracing and proper breathing techniques for each lift",
+                        "Don't neglect accessory work for balanced development and injury prevention",
+                        "Stay consistent with your training schedule and recovery practices",
+                        "Focus on recovery with proper sleep, nutrition, and mobility work",
+                        "Learn to use RPE (Rate of Perceived Exertion) to auto-regulate training intensity"
+                    ]
+                },
+                intermediate: {
+                    title: "Intermediate Powerlifting Program",
+                    subtitle: "6-Day Push/Pull Split - Increase strength with varied intensity",
+                    progression: [
+                        "Implement wave loading with weekly intensity fluctuations",
+                        "Use competition lifts variations to address weaknesses",
+                        "Increase training max by 2.5-5% each mesocycle",
+                        "Track volume and intensity to manage fatigue",
+                        "Practice singles and doubles to build confidence with heavy weights"
+                    ],
+                    nutrition: [
+                        {
+                            title: "Protein Distribution",
+                            content: "Spread protein intake evenly throughout the day (every 3-4 hours) for optimal muscle protein synthesis."
+                        },
+                        {
+                            title: "Carb Loading",
+                            content: "Consider carb loading before heavy training sessions or mock meets for improved performance."
+                        },
+                        {
+                            title: "Intra-workout Nutrition",
+                            content: "For sessions longer than 90 minutes, consider BCAAs or essential amino acids during training."
+                        },
+                        {
+                            title: "Post-workout Recovery",
+                            content: "Consume a 3:1 carb-to-protein ratio within 30 minutes post-training for optimal recovery."
+                        }
+                    ],
+                    days: [
+                        {
+                            day: "Day 1: Heavy Bench",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Bench Press", details: "3 sets of 3 reps @ RPE 8-9" },
+                                { name: "Close Grip Bench", details: "4 sets of 6-8 reps" },
+                                { name: "Incline Bench", details: "3 sets of 8 reps" },
+                                { name: "Tricep Dips", details: "3 sets of 8-12 reps" },
+                                { name: "Cable Crossovers", details: "3 sets of 12-15 reps" },
+                                { name: "Face Pulls", details: "3 sets of 15-20 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 2: Heavy Squat",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Squat", details: "3 sets of 3 reps @ RPE 8-9" },
+                                { name: "Pause Squats", details: "3 sets of 5 reps" },
+                                { name: "Leg Press", details: "4 sets of 8-12 reps" },
+                                { name: "Leg Extensions", details: "3 sets of 12-15 reps" },
+                                { name: "Calf Raises", details: "4 sets of 15-20 reps" },
+                                { name: "Ab Wheel", details: "3 sets of 8-12 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 3: Heavy Deadlift",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Deadlift", details: "2 sets of 3 reps @ RPE 8-9" },
+                                { name: "Deficit Deadlifts", details: "3 sets of 3 reps" },
+                                { name: "Barbell Rows", details: "4 sets of 6-8 reps" },
+                                { name: "Pull-ups", details: "4 sets to failure" },
+                                { name: "Face Pulls", details: "3 sets of 15-20 reps" },
+                                { name: "Hyperextensions", details: "3 sets of 12-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 4: Volume Bench & Shoulders",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Bench Press", details: "4 sets of 8 reps @ RPE 6-7" },
+                                { name: "Overhead Press", details: "4 sets of 6-8 reps" },
+                                { name: "Dumbbell Bench", details: "3 sets of 8-12 reps" },
+                                { name: "Lateral Raises", details: "4 sets of 12-15 reps" },
+                                { name: "Tricep Pushdowns", details: "3 sets of 12-15 reps" },
+                                { name: "Skull Crushers", details: "3 sets of 8-12 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 5: Volume Squat & Legs",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Squat", details: "4 sets of 8 reps @ RPE 6-7" },
+                                { name: "Front Squats", details: "3 sets of 8 reps" },
+                                { name: "Romanian Deadlifts", details: "3 sets of 8-12 reps" },
+                                { name: "Leg Curls", details: "3 sets of 12-15 reps" },
+                                { name: "Hanging Leg Raises", details: "3 sets of 12-15 reps" },
+                                { name: "Box Squats", details: "3 sets of 5 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 6: Volume Deadlift & Back",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Deadlift", details: "3 sets of 8 reps @ RPE 6-7" },
+                                { name: "Rack Pulls", details: "3 sets of 5 reps" },
+                                { name: "T-bar Rows", details: "4 sets of 8-12 reps" },
+                                { name: "Lat Pulldowns", details: "3 sets of 8-12 reps" },
+                                { name: "Hyperextensions", details: "3 sets of 12-15 reps" },
+                                { name: "Shrugs", details: "3 sets of 12-15 reps" }
+                            ]
+                        }
+                    ],
+                    tips: [
+                        "Implement wave loading for progressive overload while managing fatigue",
+                        "Include variations of the main lifts to address specific weaknesses",
+                        "Focus on weak points in your lifts with targeted accessory work",
+                        "Consider implementing deload weeks every 4-6 weeks",
+                        "Pay attention to recovery with proper sleep, nutrition, and mobility work",
+                        "Track your RPE (Rate of Perceived Exertion) to auto-regulate training intensity",
+                        "Focus on competition-style technique and practice commands regularly",
+                        "Consider working with a coach for personalized programming and form checks"
+                    ]
+                },
+                advanced: {
+                    title: "Advanced Powerlifting Program",
+                    subtitle: "6-Day Push/Pull Split - Peak strength with specialized programming",
+                    progression: [
+                        "Implement conjugate method with max effort and dynamic effort days",
+                        "Use specialty bars and variations to overcome sticking points",
+                        "Peak for competitions with 8-12 week specialized cycles",
+                        "Auto-regulate based on daily readiness and performance",
+                        "Implement strategic deloads and active recovery phases"
+                    ],
+                    nutrition: [
+                        {
+                            title: "Peaking Nutrition",
+                            content: "During peak weeks, increase carb intake while maintaining protein to maximize glycogen stores."
+                        },
+                        {
+                            title: "Weight Management",
+                            content: "If competing in a weight class, plan weight cuts carefully to minimize strength loss."
+                        },
+                        {
+                            title: "Competition Day Nutrition",
+                            content: "Have easily digestible carb sources on competition day and stay hydrated with electrolytes."
+                        },
+                        {
+                            title: "Post-Competition Recovery",
+                            content: "Focus on replenishing glycogen stores and reducing inflammation after competitions."
+                        }
+                    ],
+                    days: [
+                        {
+                            day: "Day 1: Competition Bench",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Competition Bench", details: "Work up to heavy single @ RPE 9" },
+                                { name: "Spoto Press", details: "3 sets of 3 reps" },
+                                { name: "Close Grip Bench", details: "4 sets of 5 reps" },
+                                { name: "Weighted Dips", details: "3 sets of 6-8 reps" },
+                                { name: "Tricep Extensions", details: "3 sets of 8-12 reps" },
+                                { name: "Band Pull-aparts", details: "3 sets of 20 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 2: Competition Squat",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Competition Squat", details: "Work up to heavy single @ RPE 9" },
+                                { name: "Pause Squats", details: "3 sets of 3 reps" },
+                                { name: "Box Squats", details: "3 sets of 5 reps" },
+                                { name: "Leg Press", details: "4 sets of 8-12 reps" },
+                                { name: "Leg Extensions", details: "3 sets of 12-15 reps" },
+                                { name: "Ab Wheel", details: "3 sets of 8-12 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 3: Competition Deadlift",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Competition Deadlift", details: "Work up to heavy single @ RPE 9" },
+                                { name: "Deficit Deadlifts", details: "3 sets of 3 reps" },
+                                { name: "Rack Pulls", details: "3 sets of 3 reps" },
+                                { name: "Barbell Rows", details: "4 sets of 6-8 reps" },
+                                { name: "Pull-ups", details: "4 sets to failure" },
+                                { name: "Farmers Walks", details: "3 sets of 100 feet" }
+                            ]
+                        },
+                        {
+                            day: "Day 4: Bench Accessory",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Floor Press", details: "4 sets of 5 reps" },
+                                { name: "Incline Bench", details: "3 sets of 8 reps" },
+                                { name: "Dumbbell Press", details: "3 sets of 8-12 reps" },
+                                { name: "Cable Crossovers", details: "3 sets of 12-15 reps" },
+                                { name: "Tricep Pushdowns", details: "4 sets of 12-15 reps" },
+                                { name: "Face Pulls", details: "4 sets of 15-20 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 5: Squat Accessory",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Front Squats", details: "4 sets of 5 reps" },
+                                { name: "Hack Squats", details: "3 sets of 8 reps" },
+                                { name: "Bulgarian Split Squats", details: "3 sets of 8 reps per leg" },
+                                { name: "Leg Curls", details: "4 sets of 12-15 reps" },
+                                { name: "Calf Raises", details: "5 sets of 15-20 reps" },
+                                { name: "Good Mornings", details: "3 sets of 8 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 6: Deadlift Accessory",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Snatch Grip Deadlifts", details: "3 sets of 3 reps" },
+                                { name: "Good Mornings", details: "3 sets of 8 reps" },
+                                { name: "Hyperextensions", details: "3 sets of 12-15 reps" },
+                                { name: "Lat Pulldowns", details: "4 sets of 8-12 reps" },
+                                { name: "Face Pulls", details: "4 sets of 15-20 reps" },
+                                { name: "Ab Rollouts", details: "3 sets of 10-15 reps" }
+                            ]
+                        }
+                    ],
+                    tips: [
+                        "Implement peaking cycles for competition with specific intensity and volume manipulation",
+                        "Use RPE-based training for auto-regulation based on daily readiness",
+                        "Focus on competition-specific technique and practice commands regularly",
+                        "Plan deloads before testing maxes or competitions to ensure peak performance",
+                        "Consider working with a coach for personalized programming and form checks",
+                        "Focus on recovery with emphasis on sleep, nutrition, and stress management during peak phases",
+                        "Practice commands and competition setup to build familiarity and reduce anxiety",
+                        "Implement strategic accessory work to address individual weaknesses and prevent imbalances"
+                    ]
+                }
+            },
+            fitness: {
+                beginner: {
+                    title: "Beginner Fitness Program",
+                    subtitle: "6-Day Push/Pull Split - Build foundation of overall health and fitness",
+                    progression: [
+                        "Focus on consistency and establishing the habit of regular exercise",
+                        "Gradually increase duration and intensity each week",
+                        "Aim to add 1-2 reps or reduce rest time between exercises",
+                        "Track workouts to ensure balanced progress across all fitness domains",
+                        "Celebrate small victories to maintain motivation"
+                    ],
+                    nutrition: [
+                        {
+                            title: "Balanced Nutrition",
+                            content: "Focus on whole foods with a balance of protein, carbs, and healthy fats at each meal."
+                        },
+                        {
+                            title: "Portion Control",
+                            content: "Use hand-sized portions: palm for protein, fist for veggies, cupped hand for carbs, thumb for fats."
+                        },
+                        {
+                            title: "Hydration",
+                            content: "Drink water throughout the day and especially before, during, and after workouts."
+                        },
+                        {
+                            title: "Mindful Eating",
+                            content: "Pay attention to hunger and fullness cues rather than eating on a strict schedule."
+                        }
+                    ],
+                    days: [
+                        {
+                            day: "Day 1: Full Body Strength",
+                            icon: "fas fa-dumbbell",
+                            exercises: [
+                                { name: "Goblet Squats", details: "3 sets of 12-15 reps" },
+                                { name: "Push-ups", details: "3 sets to failure" },
+                                { name: "Bent-over Rows", details: "3 sets of 12-15 reps" },
+                                { name: "Overhead Press", details: "3 sets of 12-15 reps" },
+                                { name: "Plank", details: "3 sets of 30-60 seconds" },
+                                { name: "Bodyweight Lunges", details: "3 sets of 10 reps per leg" }
+                            ]
+                        },
+                        {
+                            day: "Day 2: Cardio & Core",
+                            icon: "fas fa-running",
+                            exercises: [
+                                { name: "Treadmill Running", details: "20-30 minutes" },
+                                { name: "Bicycle Crunches", details: "3 sets of 15-20 reps" },
+                                { name: "Russian Twists", details: "3 sets of 15-20 reps" },
+                                { name: "Leg Raises", details: "3 sets of 12-15 reps" },
+                                { name: "Mountain Climbers", details: "3 sets of 30 seconds" },
+                                { name: "Bird Dogs", details: "3 sets of 10 reps per side" }
+                            ]
+                        },
+                        {
+                            day: "Day 3: Upper Body Push",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Dumbbell Bench Press", details: "3 sets of 12-15 reps" },
+                                { name: "Overhead Press", details: "3 sets of 12-15 reps" },
+                                { name: "Tricep Dips", details: "3 sets to failure" },
+                                { name: "Push-ups", details: "3 sets to failure" },
+                                { name: "Lateral Raises", details: "3 sets of 15-20 reps" },
+                                { name: "Incline Push-ups", details: "3 sets to failure" }
+                            ]
+                        },
+                        {
+                            day: "Day 4: Lower Body & Cardio",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Bodyweight Squats", details: "3 sets of 15-20 reps" },
+                                { name: "Walking Lunges", details: "3 sets of 10 reps per leg" },
+                                { name: "Glute Bridges", details: "3 sets of 15-20 reps" },
+                                { name: "Stationary Bike", details: "20 minutes" },
+                                { name: "Calf Raises", details: "3 sets of 15-20 reps" },
+                                { name: "Step-ups", details: "3 sets of 10 reps per leg" }
+                            ]
+                        },
+                        {
+                            day: "Day 5: Upper Body Pull",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Lat Pulldowns", details: "3 sets of 12-15 reps" },
+                                { name: "Seated Rows", details: "3 sets of 12-15 reps" },
+                                { name: "Face Pulls", details: "3 sets of 15-20 reps" },
+                                { name: "Bicep Curls", details: "3 sets of 12-15 reps" },
+                                { name: "Reverse Flyes", details: "3 sets of 15-20 reps" },
+                                { name: "Band Pull-aparts", details: "3 sets of 15-20 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 6: Full Body Circuit",
+                            icon: "fas fa-redo",
+                            exercises: [
+                                { name: "Circuit: Squat to Press", details: "3 rounds of 12 reps" },
+                                { name: "Circuit: Bent-over Row to Curl", details: "3 rounds of 12 reps" },
+                                { name: "Circuit: Lunges with Twist", details: "3 rounds of 10 per leg" },
+                                { name: "Circuit: Plank to Push-up", details: "3 rounds of 10 reps" },
+                                { name: "Circuit: Burpees", details: "3 rounds of 8 reps" },
+                                { name: "Circuit: Jumping Jacks", details: "3 rounds of 30 seconds" }
+                            ]
+                        }
+                    ],
+                    tips: [
+                        "Focus on consistency over intensity - establishing the habit is most important",
+                        "Incorporate both strength and cardio for balanced fitness development",
+                        "Listen to your body and rest when needed - recovery is part of progress",
+                        "Aim for 3-4 workouts per week if 6 days feels overwhelming",
+                        "Stay hydrated and eat balanced meals to support your new activity level",
+                        "Focus on proper form in all exercises to prevent injury and build good habits",
+                        "Gradually increase intensity over time as your fitness improves",
+                        "Celebrate small victories and non-scale victories like improved energy and mood"
+                    ]
+                },
+                intermediate: {
+                    title: "Intermediate Fitness Program",
+                    subtitle: "6-Day Push/Pull Split - Improve overall fitness with varied training",
+                    progression: [
+                        "Implement progressive overload across all fitness domains",
+                        "Use periodization with focused blocks for different fitness components",
+                        "Track performance metrics to ensure balanced progress",
+                        "Challenge yourself with new exercises and training modalities",
+                        "Incorporate active recovery to maintain training consistency"
+                    ],
+                    nutrition: [
+                        {
+                            title: "Macronutrient Balance",
+                            content: "Adjust your macronutrient ratios based on your primary training focus (strength vs endurance)."
+                        },
+                        {
+                            title: "Meal Timing",
+                            content: "Time larger meals around your workouts and have smaller meals throughout the day."
+                        },
+                        {
+                            title: "Nutrient Density",
+                            content: "Focus on nutrient-dense foods that provide vitamins, minerals, and antioxidants."
+                        },
+                        {
+                            title: "Flexible Dieting",
+                            content: "Allow for flexibility in your diet while maintaining 80-90% whole foods."
+                        }
+                    ],
+                    days: [
+                        {
+                            day: "Day 1: Push (Chest, Shoulders, Triceps)",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Barbell Bench Press", details: "4 sets of 8-12 reps" },
+                                { name: "Overhead Press", details: "4 sets of 8-12 reps" },
+                                { name: "Incline Dumbbell Press", details: "3 sets of 10-15 reps" },
+                                { name: "Lateral Raises", details: "3 sets of 12-15 reps" },
+                                { name: "Tricep Pushdowns", details: "3 sets of 12-15 reps" },
+                                { name: "Push-ups", details: "3 sets to failure" }
+                            ]
+                        },
+                        {
+                            day: "Day 2: Pull (Back, Biceps)",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Pull-ups", details: "4 sets to failure" },
+                                { name: "Barbell Rows", details: "4 sets of 8-12 reps" },
+                                { name: "Lat Pulldowns", details: "3 sets of 10-15 reps" },
+                                { name: "Face Pulls", details: "3 sets of 15-20 reps" },
+                                { name: "Hammer Curls", details: "3 sets of 10-15 reps" },
+                                { name: "Reverse Flyes", details: "3 sets of 12-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 3: Legs & Core",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Barbell Squats", details: "4 sets of 8-12 reps" },
+                                { name: "Romanian Deadlifts", details: "3 sets of 10-15 reps" },
+                                { name: "Walking Lunges", details: "3 sets of 10 reps per leg" },
+                                { name: "Leg Press", details: "3 sets of 12-15 reps" },
+                                { name: "Hanging Leg Raises", details: "3 sets of 12-15 reps" },
+                                { name: "Russian Twists", details: "3 sets of 20 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 4: HIIT Cardio",
+                            icon: "fas fa-running",
+                            exercises: [
+                                { name: "Sprint Intervals", details: "8 rounds of 30s on/30s off" },
+                                { name: "Burpees", details: "4 sets of 10 reps" },
+                                { name: "Mountain Climbers", details: "4 sets of 30 seconds" },
+                                { name: "Jump Squats", details: "4 sets of 15 reps" },
+                                { name: "Plank", details: "3 sets of 60 seconds" },
+                                { name: "High Knees", details: "4 sets of 30 seconds" }
+                            ]
+                        },
+                        {
+                            day: "Day 5: Push (Volume)",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Dumbbell Bench Press", details: "4 sets of 10-15 reps" },
+                                { name: "Arnold Press", details: "3 sets of 10-15 reps" },
+                                { name: "Cable Crossovers", details: "3 sets of 15-20 reps" },
+                                { name: "Tricep Dips", details: "3 sets of 10-15 reps" },
+                                { name: "Front Raises", details: "3 sets of 12-15 reps" },
+                                { name: "Incline Flyes", details: "3 sets of 12-15 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 6: Pull (Volume) & Core",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "T-bar Rows", details: "4 sets of 10-15 reps" },
+                                { name: "Seated Cable Rows", details: "3 sets of 12-15 reps" },
+                                { name: "Reverse Flyes", details: "3 sets of 15-20 reps" },
+                                { name: "Preacher Curls", details: "3 sets of 10-15 reps" },
+                                { name: "Russian Twists", details: "3 sets of 20 reps" },
+                                { name: "Cable Wood Chops", details: "3 sets of 12 reps per side" }
+                            ]
+                        }
+                    ],
+                    tips: [
+                        "Mix strength training with metabolic conditioning for comprehensive fitness",
+                        "Try new activities and exercises to prevent boredom and ensure balanced development",
+                        "Set specific fitness goals for different domains (strength, endurance, mobility)",
+                        "Incorporate mobility work and stretching into your routine to maintain joint health",
+                        "Balance workout intensity with adequate recovery to prevent overtraining",
+                        "Track your progress in strength, endurance, and body composition changes",
+                        "Focus on functional movement patterns that translate to real-world activities",
+                        "Consider working with a trainer periodically to refresh your technique and programming"
+                    ]
+                },
+                advanced: {
+                    title: "Advanced Fitness Program",
+                    subtitle: "6-Day Push/Pull Split - Peak physical conditioning with varied modalities",
+                    progression: [
+                        "Implement concurrent training with focused blocks for different fitness attributes",
+                        "Use undulating periodization to train multiple fitness domains simultaneously",
+                        "Track performance across strength, endurance, power, and mobility metrics",
+                        "Challenge yourself with complex movements and combinations",
+                        "Auto-regulate training based on recovery and performance indicators"
+                    ],
+                    nutrition: [
+                        {
+                            title: "Performance Nutrition",
+                            content: "Tailor your nutrition to support your specific training goals and recovery needs."
+                        },
+                        {
+                            title: "Nutrient Timing",
+                            content: "Use strategic nutrient timing to optimize performance and recovery from different types of training."
+                        },
+                        {
+                            title: "Supplement Strategy",
+                            content: "Consider evidence-based supplements like creatine, beta-alanine, and omega-3s for enhanced performance."
+                        },
+                        {
+                            title: "Gut Health",
+                            content: "Include probiotic and prebiotic foods to support gut health, which impacts overall wellness and recovery."
+                        }
+                    ],
+                    days: [
+                        {
+                            day: "Day 1: Heavy Push",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Bench Press", details: "5 sets of 5 reps" },
+                                { name: "Overhead Press", details: "4 sets of 6-8 reps" },
+                                { name: "Weighted Dips", details: "3 sets of 8-10 reps" },
+                                { name: "Close Grip Bench", details: "3 sets of 8-12 reps" },
+                                { name: "Lateral Raises", details: "4 sets of 12-15 reps" },
+                                { name: "Push Press", details: "3 sets of 5 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 2: Heavy Pull",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "Deadlifts", details: "4 sets of 5 reps" },
+                                { name: "Pull-ups", details: "4 sets to failure" },
+                                { name: "Barbell Rows", details: "4 sets of 6-8 reps" },
+                                { name: "Face Pulls", details: "4 sets of 15-20 reps" },
+                                { name: "Barbell Curls", details: "3 sets of 8-12 reps" },
+                                { name: "Kroc Rows", details: "3 sets of 15-20 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 3: Legs & Power",
+                            icon: "fas fa-walking",
+                            exercises: [
+                                { name: "Squats", details: "5 sets of 5 reps" },
+                                { name: "Power Cleans", details: "4 sets of 3 reps" },
+                                { name: "Front Squats", details: "3 sets of 8 reps" },
+                                { name: "Box Jumps", details: "4 sets of 5 reps" },
+                                { name: "Calf Raises", details: "4 sets of 15-20 reps" },
+                                { name: "Bulgarian Split Squats", details: "3 sets of 8 reps per leg" }
+                            ]
+                        },
+                        {
+                            day: "Day 4: Metabolic Conditioning",
+                            icon: "fas fa-fire",
+                            exercises: [
+                                { name: "Kettlebell Swings", details: "5 sets of 20 reps" },
+                                { name: "Burpees", details: "5 sets of 10 reps" },
+                                { name: "Battle Ropes", details: "4 sets of 30 seconds" },
+                                { name: "Sled Pushes", details: "4 sets of 50 feet" },
+                                { name: "Farmer's Walks", details: "4 sets of 100 feet" },
+                                { name: "Rowing Sprints", details: "5 sets of 250 meters" }
+                            ]
+                        },
+                        {
+                            day: "Day 5: Volume Push",
+                            icon: "fas fa-arrow-up",
+                            exercises: [
+                                { name: "Incline Bench", details: "4 sets of 8-12 reps" },
+                                { name: "Dumbbell Shoulder Press", details: "3 sets of 10-15 reps" },
+                                { name: "Cable Flyes", details: "3 sets of 15-20 reps" },
+                                { name: "Tricep Pushdowns", details: "4 sets of 12-15 reps" },
+                                { name: "Front Raises", details: "3 sets of 12-15 reps" },
+                                { name: "Landmine Press", details: "3 sets of 8-12 reps" }
+                            ]
+                        },
+                        {
+                            day: "Day 6: Volume Pull & Core",
+                            icon: "fas fa-arrow-down",
+                            exercises: [
+                                { name: "T-bar Rows", details: "4 sets of 8-12 reps" },
+                                { name: "Lat Pulldowns", details: "3 sets of 10-15 reps" },
+                                { name: "Seated Rows", details: "3 sets of 12-15 reps" },
+                                { name: "Hammer Curls", details: "3 sets of 10-15 reps" },
+                                { name: "Hanging Leg Raises", details: "4 sets of 12-15 reps" },
+                                { name: "Pallof Press", details: "3 sets of 10 reps per side" }
+                            ]
+                        }
+                    ],
+                    tips: [
+                        "Incorporate multiple fitness domains with strategic programming",
+                        "Challenge yourself with new movements and training modalities regularly",
+                        "Focus on functional strength, mobility, and movement quality",
+                        "Consider periodizing your training with specific blocks for different goals",
+                        "Listen to your body and auto-regulate training to prevent overtraining",
+                        "Track performance across different fitness domains to ensure balanced development",
+                        "Focus on recovery as much as training with proper sleep, nutrition, and stress management",
+                        "Consider working with a coach to optimize programming and address individual needs"
+                    ]
+                }
+            }
+        };
+        
+        // Event Listeners
+        getStartedBtn.addEventListener('click', function() {
+            // Show loading state
+            getStartedBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            getStartedBtn.disabled = true;
+            
+            setTimeout(() => {
+                welcomePage.classList.add('hidden');
+                workoutTypePage.classList.remove('hidden');
+                
+                // Smooth scroll to the workout type section
+                setTimeout(() => {
+                    workoutTypePage.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+                
+                // Reset button state
+                getStartedBtn.innerHTML = 'Get Started';
+                getStartedBtn.disabled = false;
+            }, 1000);
+        });
+        
+        backToWelcomeBtn.addEventListener('click', function() {
+            workoutTypePage.classList.add('hidden');
+            welcomePage.classList.remove('hidden');
+            welcomePage.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        backToTypeBtn.addEventListener('click', function() {
+            experiencePage.classList.add('hidden');
+            workoutTypePage.classList.remove('hidden');
+            workoutTypePage.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        startNewPlanBtn.addEventListener('click', function() {
+            workoutPage.classList.add('hidden');
+            welcomePage.classList.remove('hidden');
+            welcomePage.scrollIntoView({ behavior: 'smooth' });
+            
+            // Reset selections
+            selectedWorkoutType = '';
+            selectedExperienceLevel = '';
+            
+            // Reset card selections visually
+            workoutTypeCards.forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            experienceCards.forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Reset timer
+            resetTimer();
+        });
+        
+        // Workout type selection
+        workoutTypeCards.forEach(card => {
+            card.addEventListener('click', function() {
+                selectedWorkoutType = this.getAttribute('data-type');
+                
+                // Visual feedback
+                workoutTypeCards.forEach(c => {
+                    c.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                
+                // Move to next page after a short delay
+                setTimeout(() => {
+                    workoutTypePage.classList.add('hidden');
+                    experiencePage.classList.remove('hidden');
+                    experiencePage.scrollIntoView({ behavior: 'smooth' });
+                }, 500);
+            });
+        });
+        
+        // Experience level selection
+        experienceCards.forEach(card => {
+            card.addEventListener('click', function() {
+                selectedExperienceLevel = this.getAttribute('data-level');
+                
+                // Visual feedback
+                experienceCards.forEach(c => {
+                    c.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                
+                // Generate and display workout plan
+                generateWorkoutPlan();
+                
+                // Move to workout page after a short delay
+                setTimeout(() => {
+                    experiencePage.classList.add('hidden');
+                    workoutPage.classList.remove('hidden');
+                    workoutPage.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Show success toast
+                    showToast('Workout plan generated successfully!', 'success');
+                }, 500);
+            });
+        });
+        
+        // Timer functionality
+        startTimerBtn.addEventListener('click', startTimer);
+        pauseTimerBtn.addEventListener('click', pauseTimer);
+        resetTimerBtn.addEventListener('click', resetTimer);
+        
+        // Download plan functionality
+        downloadPlanBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showToast('Download feature coming soon!', 'info');
+        });
+        
+        // Generate workout plan based on selections
+        function generateWorkoutPlan() {
+            const plan = workoutData[selectedWorkoutType][selectedExperienceLevel];
+            
+            // Update titles
+            planTitle.textContent = plan.title;
+            planSubtitle.textContent = plan.subtitle;
+            workoutPlanTitle.textContent = `${selectedWorkoutType.charAt(0).toUpperCase() + selectedWorkoutType.slice(1)} 6-Day Push/Pull Split`;
+            
+            // Clear previous content
+            workoutDaysContainer.innerHTML = '';
+            tipsList.innerHTML = '';
+            progressionList.innerHTML = '';
+            nutritionTipsContainer.innerHTML = '';
+            
+            // Add progression strategy
+            plan.progression.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                progressionList.appendChild(li);
+            });
+            
+            // Add nutrition tips
+            plan.nutrition.forEach(tip => {
+                const card = document.createElement('div');
+                card.className = 'nutrition-card';
+                card.innerHTML = `
+                    <h4>${tip.title}</h4>
+                    <p>${tip.content}</p>
+                `;
+                nutritionTipsContainer.appendChild(card);
+            });
+            
+            // Add workout days
+            let totalExercises = 0;
+            plan.days.forEach(day => {
+                totalExercises += day.exercises.length;
+                
+                const daySection = document.createElement('div');
+                daySection.className = 'day-section';
+                daySection.innerHTML = `
+                    <h4 class="day-title">
+                        <i class="${day.icon}"></i>
+                        ${day.day}
+                    </h4>
+                    <ul class="exercise-list">
+                        ${day.exercises.map(exercise => `
+                            <li class="exercise-item">
+                                <div class="exercise-name">${exercise.name}</div>
+                                <div class="exercise-details">${exercise.details}</div>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                workoutDaysContainer.appendChild(daySection);
+            });
+            
+            // Update stats
+            totalExercises.textContent = totalExercises;
+            
+            // Add tips
+            plan.tips.forEach(tip => {
+                const li = document.createElement('li');
+                li.textContent = tip;
+                tipsList.appendChild(li);
+            });
+        }
+        
+        // Timer functions
+        function startTimer() {
+            if (!timerRunning) {
+                timerInterval = setInterval(() => {
+                    timerSeconds++;
+                    updateTimerDisplay();
+                }, 1000);
+                timerRunning = true;
+                startTimerBtn.disabled = true;
+                pauseTimerBtn.disabled = false;
+            }
+        }
+        
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            startTimerBtn.disabled = false;
+            pauseTimerBtn.disabled = true;
+        }
+        
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerSeconds = 0;
+            timerRunning = false;
+            updateTimerDisplay();
+            startTimerBtn.disabled = false;
+            pauseTimerBtn.disabled = true;
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timerSeconds / 60);
+            const seconds = timerSeconds % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            toast.textContent = message;
+            toast.className = 'toast';
+            toast.classList.add(type);
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
